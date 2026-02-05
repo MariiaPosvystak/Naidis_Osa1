@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="Naidis_Osa1.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:Naidis_Osa1"
+    Title="Naidis_Osa1">
+
+    <Shell.TitleView>
+        <Label
+            Text="Naidis_Osa1"
+            FontFamily="LowerWestSide400"
+            FontSize="Title"
+            TextColor="Chocolate"
+            VerticalTextAlignment="Center"
+            VerticalOptions="Start"
+            Padding="25, 0, 0, 0"
+            HeightRequest="50"/>
+    </Shell.TitleView>
+    <ShellContent
+        Title="Home"
+        ContentTemplate="{DataTemplate local:StartPage}"
+        Route="StartPage" />
+
+</Shell>
