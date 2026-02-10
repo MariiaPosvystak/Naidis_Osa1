@@ -26,6 +26,10 @@ public partial class TextPage : ContentPage
             HorizontalOptions = LayoutOptions.Center,
             FontAttributes = FontAttributes.Italic
         };
+        editor.TextChanged += (sender, e) =>
+        {
+            lbl.Text = editor.Text;
+        };
 
         hsl = new HorizontalStackLayout
         {
@@ -59,6 +63,18 @@ public partial class TextPage : ContentPage
 
     private void Liikumine(object? sender, EventArgs e)
     {
-        throw new NotImplementedException();
+        Button nupp = sender as Button;
+        if(nupp.ZIndex == 0)
+        {
+            Navigation.PopAsync();
+        }
+        else if (nupp.ZIndex == 1)
+        {
+            Navigation.PopToRootAsync();
+        }
+        else if (nupp.ZIndex == 2)
+        {
+            Navigation.PushAsync(new FigurePage());
+        }
     }
 }
