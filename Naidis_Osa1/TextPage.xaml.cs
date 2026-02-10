@@ -7,7 +7,7 @@ public partial class TextPage : ContentPage
     HorizontalStackLayout hsl;
     VerticalStackLayout vsl;
     List<string> nupud = new List<string>() { "Tagasi", "Avaleht", "Edasi"};
-    public TextPage(int i)
+    public TextPage()
     {
         lbl = new Label
         {
