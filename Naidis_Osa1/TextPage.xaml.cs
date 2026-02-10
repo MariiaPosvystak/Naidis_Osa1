@@ -6,14 +6,14 @@ public partial class TextPage : ContentPage
     Editor editor;
     HorizontalStackLayout hsl;
     VerticalStackLayout vsl;
-    List<string> nupud = new List<string>() { "Tagasi", "Avaleht", "Edasi" };
+    List<string> nupud = new List<string>() { "Tagasi", "Avaleht", "Edasi"};
     public TextPage(int i)
     {
         lbl = new Label
         {
             Text = "Pealkiri",
             FontSize = 36,
-            FontFamily = "Impact",
+            FontFamily = "LowerWestSide400",
             TextColor = Colors.Black,
             HorizontalOptions = LayoutOptions.Center,
             FontAttributes = FontAttributes.Bold
@@ -40,11 +40,11 @@ public partial class TextPage : ContentPage
         {
             Button nupp = new Button
             {
-                Text = nupud[i],
+                Text = nupud[j],
                 FontSize = 18,
-                FontFamily = "Impact",
-                TextColor = Colors.Black,
-                BackgroundColor = Colors.LightBlue,
+                FontFamily = "LowerWestSide400",
+                TextColor = Colors.White,
+                BackgroundColor = Colors.DarkBlue,
                 CornerRadius = 10,
                 HeightRequest = 40,
                 ZIndex = j
@@ -52,13 +52,26 @@ public partial class TextPage : ContentPage
             hsl.Add(nupp);
             nupp.Clicked += Liikumine;
         }
+        Button volume = new Button
+        {
+            Text = "Volume",
+            FontSize = 18,
+            FontFamily = "LowerWestSide400",
+            TextColor = Colors.White,
+            BackgroundColor = Colors.DarkBlue,
+            CornerRadius = 10,
+            HeightRequest = 40,
+        };
         vsl = new VerticalStackLayout
         {
             Padding = 20,
             Spacing = 15,
             HorizontalOptions = LayoutOptions.Center,
-            Children = {lbl, editor, vsl}
+            Children = {lbl, editor, hsl}
         };
+        vsl.Add(volume);
+        volume.Clicked += Nupp_Clicked;
+        Content = vsl;
     }
 
     private void Liikumine(object? sender, EventArgs e)
@@ -75,6 +88,34 @@ public partial class TextPage : ContentPage
         else if (nupp.ZIndex == 2)
         {
             Navigation.PushAsync(new FigurePage());
+        }
+    }
+
+    private async void Nupp_Clicked(object? sender, EventArgs e)
+    {
+        IEnumerable<Locale> locales = await TextToSpeech.Default.GetLocalesAsync();
+
+        SpeechOptions options = new SpeechOptions()
+        {
+            Pitch = 1.5f,    // 0.0 – 2.0
+            Volume = 0.75f,  // 0.0 – 1.0
+            Locale = locales.FirstOrDefault()
+        };
+
+        var text = editor.Text;
+        if (string.IsNullOrWhiteSpace(text))
+        {
+            await DisplayAlert("Viga", "Palun sisesta tekst", "OK");
+            return;
+        }
+
+        try
+        {
+            await TextToSpeech.SpeakAsync(text, options);
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("TTS viga", ex.Message, "OK");
         }
     }
 }
