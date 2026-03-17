@@ -128,7 +128,7 @@ public partial class FigurePage : ContentPage
         }
         else if (nupp.ZIndex == 2)
         {
-            Navigation.PushAsync(new FigurePage());
+            Navigation.PushAsync(new TimerPage());
         }
     }
 }
