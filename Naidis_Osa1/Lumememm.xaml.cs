@@ -329,7 +329,7 @@ public partial class Lumememm : ContentPage
         }
         else if (nupp.ZIndex == 2)
         {
-            Navigation.PushAsync(new Lumememm());
+            Navigation.PushAsync(new PopUp());
         }
     }
 }
