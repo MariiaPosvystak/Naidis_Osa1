@@ -1,3 +1,5 @@
+using Microsoft.Maui.Layouts;
+
 namespace Naidis_Osa1;
 
 public partial class DateTimePage : ContentPage
@@ -20,7 +22,7 @@ public partial class DateTimePage : ContentPage
             MaximumDate = DateTime.Now.AddDays(15),
             Date = DateTime.Now,
             HorizontalOptions = LayoutOptions.Center,
-            Format = "D"
+            Format = "D",
         };
         datePicker.DateSelected += (sender, e) =>
         {
@@ -39,7 +41,8 @@ public partial class DateTimePage : ContentPage
         datetimeLabel = new Label
         {
             Text = "Vali kuupäev või aeg",
-            FontSize = 24,
+            FontSize = 20,
+            TextColor = Color.FromHex("#50382A"),
             HorizontalOptions = LayoutOptions.Center,
             VerticalOptions = LayoutOptions.Center
         };
@@ -76,6 +79,12 @@ public partial class DateTimePage : ContentPage
         sv = new ScrollView { Content = vsl };
         al = new AbsoluteLayout { Children = { datePicker, timePicker, datetimeLabel, sv } };
         List<View> controls = new List<View> { datePicker, timePicker, datetimeLabel, sv };
+        for (int i=0; i < controls.Count; i++)
+        {
+            double yKoht = 0.2 + i * 0.2;
+            AbsoluteLayout.SetLayoutBounds(controls[i], new Rect(0.5, yKoht, AbsoluteLayout.AutoSize, AbsoluteLayout.AutoSize));
+            AbsoluteLayout.SetLayoutFlags(controls[i], AbsoluteLayoutFlags.PositionProportional);
+        }
         Content = al;
     }
     private void Liikumine(object? sender, EventArgs e)
