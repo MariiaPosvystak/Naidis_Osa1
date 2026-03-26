@@ -14,6 +14,8 @@ public partial class FigurePage : ContentPage
     List<string> nupud = new List<string>() { "Tagasi", "Avaleht", "Edasi" };
     public FigurePage()
     {
+        BackgroundColor = Color.FromHex("#EDE0D4");
+        Title = "Kujund";
         int r = rnd.Next(256);
         int g = rnd.Next(256);
         int b = rnd.Next(256);
@@ -31,8 +33,6 @@ public partial class FigurePage : ContentPage
             WidthRequest = 200,
             HeightRequest = 200,
             Fill = new SolidColorBrush(Color.FromRgb(b, r, g)),
-            Stroke = Colors.Turquoise,
-            StrokeThickness = 5,
             HorizontalOptions = LayoutOptions.Center
         };
         kolmnurk = new Polygon()
@@ -44,8 +44,6 @@ public partial class FigurePage : ContentPage
                 new Point(200,200), //parem all
             },
             Fill = new SolidColorBrush(Color.FromRgb(g, b, r)),
-            Stroke = Colors.Turquoise,
-            StrokeThickness = 5,
             HorizontalOptions = LayoutOptions.Center
         };
         TapGestureRecognizer tap = new TapGestureRecognizer();
@@ -93,12 +91,14 @@ public partial class FigurePage : ContentPage
             Button nupp = new Button
             {
                 Text = nupud[j],
-                FontSize = 28,
+                FontSize = 20,
                 FontFamily = "LowerWestSide400",
-                TextColor = Colors.Chocolate,
-                BackgroundColor = Colors.Beige,
+                TextColor = Color.FromHex("#7F5539"),
+                BackgroundColor = Color.FromHex("#E6CCB2"),
+                BorderColor = Color.FromHex("#7F5539"),
+                BorderWidth = 2,
                 CornerRadius = 10,
-                HeightRequest = 50,
+                HeightRequest = 40,
                 ZIndex = j
             };
             hsl.Add(nupp);

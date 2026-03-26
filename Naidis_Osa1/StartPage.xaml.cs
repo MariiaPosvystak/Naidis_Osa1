@@ -12,18 +12,18 @@ public partial class StartPage : ContentPage
 	public List<string> LeheNimed = new List<string>() { "Tekst", "Kujund", "Timer", "Valgusfoor", "DateTime", "StepperSlider", "RGB", "Lumememm", "PopUp", "Grid", "Trips Traps Trull" };
 	public StartPage()
 	{
-		//InitializeComponent();
+		BackgroundColor = Color.FromHex("#EDE0D4");
 		Title = "Avaleht";
-		vst = new VerticalStackLayout { Padding=20, Spacing=15 };
+        vst = new VerticalStackLayout { Padding=20, Spacing=15 };
 		for (int i=0; i < Lehed.Count; i++)
 		{
 			Button nupp = new Button
 			{
 				Text = LeheNimed[i],
 				FontSize = 25,
-				BackgroundColor = Colors.LightBlue,
+				BackgroundColor = Color.FromHex("#7F5539"),
 				FontFamily = "LowerWestSide400",
-				TextColor = Colors.Black,
+				TextColor = Color.FromHex("#EDE0D4"),
 				CornerRadius = 10,
 				HeightRequest = 50,
 				ZIndex = i

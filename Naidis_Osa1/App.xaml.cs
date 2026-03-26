@@ -14,8 +14,8 @@ namespace Naidis_Osa1
             var startPage = new StartPage();
             var navPage = new NavigationPage(startPage)
             {
-                BarBackgroundColor = Colors.Blue,
-                BarTextColor = Colors.White
+                BarBackgroundColor = Color.FromHex("#50382A"),
+                BarTextColor = Color.FromHex("#F5F5F5")
             };
             return new Window(navPage);
         }

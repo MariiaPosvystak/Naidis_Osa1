@@ -9,19 +9,21 @@ public partial class TextPage : ContentPage
     List<string> nupud = new List<string>() { "Tagasi", "Avaleht", "Edasi"};
     public TextPage()
     {
+        BackgroundColor = Color.FromHex("#EDE0D4");
+        Title = "Tekst";
         lbl = new Label
         {
             Text = "Pealkiri",
             FontSize = 36,
             FontFamily = "LowerWestSide400",
-            TextColor = Colors.Black,
+            TextColor = Color.FromHex("#B08968"),
             HorizontalOptions = LayoutOptions.Center,
             FontAttributes = FontAttributes.Bold
         };
         editor = new Editor
         {
             Placeholder = "Sisesta tekst ...",
-            PlaceholderColor = Colors.Red,
+            PlaceholderColor = Color.FromHex("#751628"),
             FontSize = 17,
             HorizontalOptions = LayoutOptions.Center,
             FontAttributes = FontAttributes.Italic
@@ -41,12 +43,14 @@ public partial class TextPage : ContentPage
             Button nupp = new Button
             {
                 Text = nupud[j],
-                FontSize = 18,
+                FontSize = 16,
                 FontFamily = "LowerWestSide400",
-                TextColor = Colors.White,
-                BackgroundColor = Colors.DarkBlue,
+                TextColor = Color.FromHex("#7F5539"),
+                BackgroundColor = Color.FromHex("#E6CCB2"),
+                BorderColor = Color.FromHex("#7F5539"),
+                BorderWidth = 2,
                 CornerRadius = 10,
-                HeightRequest = 40,
+                HeightRequest = 30,
                 ZIndex = j
             };
             hsl.Add(nupp);
@@ -55,21 +59,22 @@ public partial class TextPage : ContentPage
         Button volume = new Button
         {
             Text = "Volume",
-            FontSize = 18,
+            FontSize = 16,
             FontFamily = "LowerWestSide400",
-            TextColor = Colors.White,
-            BackgroundColor = Colors.DarkBlue,
+            TextColor = Color.FromHex("#7F5539"),
+            BackgroundColor = Color.FromHex("#E6CCB2"),
+            BorderColor = Color.FromHex("#7F5539"),
+            BorderWidth = 2,
             CornerRadius = 10,
-            HeightRequest = 40,
+            HeightRequest = 30,
         };
         vsl = new VerticalStackLayout
         {
             Padding = 20,
             Spacing = 15,
             HorizontalOptions = LayoutOptions.Center,
-            Children = {lbl, editor, hsl}
+            Children = {lbl, editor, volume, hsl }
         };
-        vsl.Add(volume);
         volume.Clicked += Nupp_Clicked;
         Content = vsl;
     }

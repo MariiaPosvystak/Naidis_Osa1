@@ -14,6 +14,8 @@ public partial class Valgusfoor : ContentPage
     List<string> nupud = new List<string>() { "Tagasi", "Avaleht", "Edasi" };
     public Valgusfoor()
     {
+        BackgroundColor = Color.FromHex("#EDE0D4");
+        Title = "Valgusfoor";
         bg = new Grid
         {
             WidthRequest = 180,
@@ -73,50 +75,58 @@ public partial class Valgusfoor : ContentPage
         {
             Text = "Valgusfoor",
             FontSize = 36,
-            FontFamily = "OpenSansSemibold",
-            TextColor = Colors.Black,
+            TextColor = Color.FromHex("#B08968"),
+            FontFamily = "OpenSansRegular",
             HorizontalOptions = LayoutOptions.Center,
             FontAttributes = FontAttributes.Bold
         };
         Button btn_sisse = new Button
         {
             Text = "Sisse",
-            FontSize = 28,
-            FontFamily = "OpenSansSemibold",
-            TextColor = Colors.Chocolate,
-            BackgroundColor = Colors.Beige,
+            FontSize = 16,
+            FontFamily = "OpenSansRegular",
+            TextColor = Color.FromHex("#7F5539"),
+            BackgroundColor = Color.FromHex("#E6CCB2"),
+            BorderColor = Color.FromHex("#7F5539"),
+            BorderWidth = 2,
             CornerRadius = 10,
-            HeightRequest = 50,
+            HeightRequest = 30,
         };
         Button btn_valja = new Button
         {
             Text = "Välja",
-            FontSize = 28,
-            FontFamily = "OpenSansSemibold",
-            TextColor = Colors.Chocolate,
-            BackgroundColor = Colors.Beige,
+            FontSize = 16,
+            FontFamily = "OpenSansRegular",
+            TextColor = Color.FromHex("#7F5539"),
+            BackgroundColor = Color.FromHex("#E6CCB2"),
+            BorderColor = Color.FromHex("#7F5539"),
+            BorderWidth = 2,
             CornerRadius = 10,
-            HeightRequest = 50,
+            HeightRequest = 30,
         };
         Button btn_oo = new Button
         {
             Text = "Öö",
-            FontSize = 28,
-            FontFamily = "OpenSansSemibold",
-            TextColor = Colors.Chocolate,
-            BackgroundColor = Colors.Beige,
+            FontSize = 16,
+            FontFamily = "OpenSansRegular",
+            TextColor = Color.FromHex("#7F5539"),
+            BackgroundColor = Color.FromHex("#E6CCB2"),
+            BorderColor = Color.FromHex("#7F5539"),
+            BorderWidth = 2,
             CornerRadius = 10,
-            HeightRequest = 50,
+            HeightRequest = 30,
         };
         Button btn_auto = new Button
         {
             Text = "Automaatreþiim",
-            FontSize = 28,
-            FontFamily = "OpenSansSemibold",
-            TextColor = Colors.Chocolate,
-            BackgroundColor = Colors.Beige,
+            FontSize = 16,
+            FontFamily = "OpenSansRegular",
+            TextColor = Color.FromHex("#7F5539"),
+            BackgroundColor = Color.FromHex("#E6CCB2"),
+            BorderColor = Color.FromHex("#7F5539"),
+            BorderWidth = 2,
             CornerRadius = 10,
-            HeightRequest = 50,
+            HeightRequest = 30,
         };
         btn_sisse.Clicked += Btn_sisse_Click;
         btn_valja.Clicked += Btn_valja_Click;
@@ -139,12 +149,14 @@ public partial class Valgusfoor : ContentPage
             Button nupp = new Button
             {
                 Text = nupud[j],
-                FontSize = 28,
-                FontFamily = "LowerWestSide400",
-                TextColor = Colors.Chocolate,
-                BackgroundColor = Colors.Beige,
+                FontSize = 16,
+                FontFamily = "OpenSansRegular",
+                TextColor = Color.FromHex("#7F5539"),
+                BackgroundColor = Color.FromHex("#E6CCB2"),
+                BorderColor = Color.FromHex("#7F5539"),
+                BorderWidth = 2,
                 CornerRadius = 10,
-                HeightRequest = 50,
+                HeightRequest = 30,
                 ZIndex = j
             };
             hsl.Add(nupp);

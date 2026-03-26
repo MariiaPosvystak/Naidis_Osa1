@@ -8,10 +8,13 @@ public partial class TimerPage : ContentPage
     List<string> nupud = new List<string>() { "Tagasi", "Avaleht", "Edasi" };
     public TimerPage()
     {
+        BackgroundColor = Color.FromHex("#EDE0D4");
+        Title = "Timer";
         Label lbl = new Label
         {
             Text = "Valjuta nuppule ja siia",
             FontSize = 18,
+            TextColor = Color.FromHex("#B08968"),
             FontFamily = "LowerWestSide400"
         };
         Button timer_btn = new Button
@@ -19,8 +22,10 @@ public partial class TimerPage : ContentPage
             Text = "Naita info",
             FontSize = 18,
             FontFamily = "LowerWestSide400",
-            TextColor = Colors.White,
-            BackgroundColor = Colors.DarkBlue,
+            TextColor = Color.FromHex("#7F5539"),
+            BackgroundColor = Color.FromHex("#E6CCB2"),
+            BorderColor = Color.FromHex("#7F5539"),
+            BorderWidth = 2,
             CornerRadius = 10,
             HeightRequest = 40
         };
@@ -39,12 +44,14 @@ public partial class TimerPage : ContentPage
             Button nupp = new Button
             {
                 Text = nupud[j],
-                FontSize = 28,
+                FontSize = 16,
                 FontFamily = "LowerWestSide400",
-                TextColor = Colors.Chocolate,
-                BackgroundColor = Colors.Beige,
+                TextColor = Color.FromHex("#7F5539"),
+                BackgroundColor = Color.FromHex("#E6CCB2"),
+                BorderColor = Color.FromHex("#7F5539"),
+                BorderWidth = 2,
                 CornerRadius = 10,
-                HeightRequest = 50,
+                HeightRequest = 30,
                 ZIndex = j
             };
             hsl.Add(nupp);
