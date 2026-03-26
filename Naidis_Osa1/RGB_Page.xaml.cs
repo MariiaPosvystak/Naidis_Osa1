@@ -22,15 +22,6 @@ public partial class RGB_Page : ContentPage
             HorizontalOptions = LayoutOptions.Center,
             FontAttributes = FontAttributes.Bold
         };
-        lbl = new Label
-        {
-            Text = "RGB mudel",
-            FontSize = 15,
-            FontFamily = "OpenSansRegular",
-            TextColor = Color.FromHex("#B08968"),
-            HorizontalOptions = LayoutOptions.Center,
-            FontAttributes = FontAttributes.Bold
-        };
         redlbl = new Label
         {
             Text = "Red",
