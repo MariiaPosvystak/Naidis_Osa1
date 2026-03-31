@@ -1,75 +1,38 @@
-using Microsoft.Maui.Controls.Shapes;
 using Microsoft.Maui.Layouts;
 
 namespace Naidis_Osa1;
 
 public partial class Lumememm : ContentPage
 {
-    Frame body, head, bucket, button1, button2, button3, eye1, eye2;
+    Frame body, head, bucket, button1, button2, eye1, eye2;
     Picker picker;
     Label lbl;
     Slider Slider;
     Stepper speedStepper;
+    Button actionButton;
     Random random = new Random();
     ScrollView sv;
     HorizontalStackLayout hsl;
     VerticalStackLayout vsl;
     List<string> nupud = new List<string>() { "Tagasi", "Avaleht", "Edasi" };
+
     public Lumememm()
     {
-        BackgroundColor = Colors.LightSkyBlue;
+        BackgroundImageSource = "lumememm.jpg";
+
         AbsoluteLayout absoluteLayout = new AbsoluteLayout
         {
             HeightRequest = 350
         };
-        body = new Frame
-        {
-            BackgroundColor = Colors.White,
-            CornerRadius = 100,
-            HeightRequest = 160,
-            WidthRequest = 160
-        };
-        head = new Frame
-        {
-            BackgroundColor = Colors.White,
-            CornerRadius = 70,
-            HeightRequest = 120,
-            WidthRequest = 120
-        };
-        bucket = new Frame
-        {
-            BackgroundColor = Colors.Black,
-            HeightRequest = 70,
-            WidthRequest = 60
-        };
-        button1 = new Frame
-        {
-            BackgroundColor = Colors.Black,
-            CornerRadius = 18,
-            HeightRequest = 18,
-            WidthRequest = 18
-        };
-        button2 = new Frame
-        {
-            BackgroundColor = Colors.Black,
-            CornerRadius = 23,
-            HeightRequest = 23,
-            WidthRequest = 23
-        };
-        eye1 = new Frame
-        {
-            BackgroundColor = Colors.Black,
-            CornerRadius = 20,
-            HeightRequest = 3,
-            WidthRequest = 3
-        };
-        eye2 = new Frame
-        {
-            BackgroundColor = Colors.Black,
-            CornerRadius = 20,
-            HeightRequest = 3,
-            WidthRequest = 3
-        };
+
+        body = new Frame { BackgroundColor = Colors.White, CornerRadius = 100, HeightRequest = 160, WidthRequest = 160 };
+        head = new Frame { BackgroundColor = Colors.White, CornerRadius = 70, HeightRequest = 120, WidthRequest = 120 };
+        bucket = new Frame { BackgroundColor = Colors.Black, HeightRequest = 70, WidthRequest = 60 };
+        button1 = new Frame { BackgroundColor = Colors.Black, CornerRadius = 18, HeightRequest = 18, WidthRequest = 18 };
+        button2 = new Frame { BackgroundColor = Colors.Black, CornerRadius = 23, HeightRequest = 23, WidthRequest = 23 };
+        eye1 = new Frame { BackgroundColor = Colors.Black, CornerRadius = 20, HeightRequest = 3, WidthRequest = 3 };
+        eye2 = new Frame { BackgroundColor = Colors.Black, CornerRadius = 20, HeightRequest = 3, WidthRequest = 3 };
+
         AbsoluteLayout.SetLayoutBounds(body, new Rect(0.5, 1, 160, 160));
         AbsoluteLayout.SetLayoutFlags(body, AbsoluteLayoutFlags.PositionProportional);
 
@@ -98,17 +61,30 @@ public partial class Lumememm : ContentPage
         absoluteLayout.Children.Add(bucket);
         absoluteLayout.Children.Add(button1);
         absoluteLayout.Children.Add(button2);
-        
-        picker = new Picker { Title = "Vali tegevus" };
+
+        picker = new Picker
+        {
+            Title = "Vali tegevus",
+            TextColor = Color.FromHex("#7F5539"),
+            BackgroundColor = Color.FromHex("#E6CCB2")
+        };
+
         picker.Items.Add("Peida lumememm");
         picker.Items.Add("Näita lumememm");
         picker.Items.Add("Muuda värvi");
         picker.Items.Add("Sulata");
         picker.Items.Add("Tantsi");
 
-        Button actionButton = new Button
+        actionButton = new Button
         {
-            Text = "Käivita tegevus"
+            Text = "Käivita tegevus",
+            FontSize = 17,
+            TextColor = Color.FromHex("#7F5539"),
+            BackgroundColor = Color.FromHex("#E6CCB2"),
+            BorderColor = Color.FromHex("#7F5539"),
+            BorderWidth = 2,
+            CornerRadius = 10,
+            HeightRequest = 30
         };
         actionButton.Clicked += OnActionClicked;
 
@@ -118,22 +94,31 @@ public partial class Lumememm : ContentPage
             HorizontalOptions = LayoutOptions.Center
         };
 
-        Label sliderlbl = new Label { Text = "Läbipaistvus" };
+        Label sliderlbl = new Label
+        {
+            Text = "Läbipaistvus",
+            TextColor = Color.FromHex("#7F5539"),
+            BackgroundColor = Color.FromHex("#E6CCB2"),
+            FontSize = 20
+        };
+
         Slider = new Slider
         {
             Minimum = 0,
             Maximum = 1,
-            Value = 1
+            Value = 1,
+            MinimumTrackColor = Color.FromHex("#7F5539"),
+            MaximumTrackColor = Color.FromHex("#7F5539"),
+            ThumbColor = Colors.Gray
         };
         Slider.ValueChanged += OnSliderChanged;
 
-        Label stepperlbl = new Label { Text = "Kiirus (ms)" };
         speedStepper = new Stepper
         {
             Minimum = 100,
-            Maximum = 3000,
+            Maximum = 2000,
             Increment = 100,
-            Value = 1000
+            Value = 500
         };
 
         hsl = new HorizontalStackLayout
@@ -141,22 +126,25 @@ public partial class Lumememm : ContentPage
             Spacing = 20,
             HorizontalOptions = LayoutOptions.Center
         };
+
         for (int j = 0; j < nupud.Count; j++)
         {
             Button nupp = new Button
             {
                 Text = nupud[j],
-                FontSize = 28,
-                FontFamily = "LowerWestSide400",
-                TextColor = Colors.LightSkyBlue,
-                BackgroundColor = Colors.DarkBlue,
+                FontSize = 16,
+                TextColor = Color.FromHex("#7F5539"),
+                BackgroundColor = Color.FromHex("#E6CCB2"),
+                BorderColor = Color.FromHex("#7F5539"),
+                BorderWidth = 2,
                 CornerRadius = 10,
-                HeightRequest = 50,
+                HeightRequest = 30,
                 ZIndex = j
             };
-            hsl.Add(nupp);
             nupp.Clicked += Liikumine;
+            hsl.Add(nupp);
         }
+
         vsl = new VerticalStackLayout
         {
             Padding = 20,
@@ -169,15 +157,100 @@ public partial class Lumememm : ContentPage
                 lbl,
                 sliderlbl,
                 Slider,
-                stepperlbl,
                 speedStepper,
                 hsl
             }
         };
+
         sv = new ScrollView { Content = vsl };
         Content = sv;
     }
+    private void ShowSnowman()
+    {
+        body.IsVisible = true;
+        head.IsVisible = true;
+        bucket.IsVisible = true;
+        eye1.IsVisible = true;
+        eye2.IsVisible = true;
+        button1.IsVisible = true;
+        button2.IsVisible = true;
 
+        body.Opacity = 1;
+        head.Opacity = 1;
+        bucket.Opacity = 1;
+        eye1.Opacity = 1;
+        eye2.Opacity = 1;
+        button1.Opacity = 1;
+        button2.Opacity = 1;
+
+        body.Scale = 1;
+        head.Scale = 1;
+        bucket.Scale = 1;
+        eye1.Scale = 1;
+        eye2.Scale = 1;
+        button1.Scale = 1;
+        button2.Scale = 1;
+
+        body.TranslationX = 0;
+        head.TranslationX = 0;
+        bucket.TranslationX = 0;
+        eye1.TranslationX = 0;
+        eye2.TranslationX = 0;
+        button1.TranslationX = 0;
+        button2.TranslationX = 0;
+
+        body.TranslationY = 0;
+        head.TranslationY = 0;
+        bucket.TranslationY = 0;
+        eye1.TranslationY = 0;
+        eye2.TranslationY = 0;
+        button1.TranslationY = 0;
+        button2.TranslationY = 0;
+    }
+    private void HideSnowman()
+    {
+        body.IsVisible = false;
+        head.IsVisible = false;
+        bucket.IsVisible = false;
+        eye1.IsVisible = false;
+        eye2.IsVisible = false;
+        button1.IsVisible = false;
+        button2.IsVisible = false;
+    }
+    private void ResetSnowman()
+    {
+        body.Opacity = 1;
+        head.Opacity = 1;
+        bucket.Opacity = 1;
+        eye1.Opacity = 1;
+        eye2.Opacity = 1;
+        button1.Opacity = 1;
+        button2.Opacity = 1;
+
+        body.Scale = 1;
+        head.Scale = 1;
+        bucket.Scale = 1;
+        eye1.Scale = 1;
+        eye2.Scale = 1;
+        button1.Scale = 1;
+        button2.Scale = 1;
+
+        body.TranslationX = 0;
+        head.TranslationX = 0;
+        bucket.TranslationX = 0;
+        eye1.TranslationX = 0;
+        eye2.TranslationX = 0;
+        button1.TranslationX = 0;
+        button2.TranslationX = 0;
+
+        body.TranslationY = 0;
+        head.TranslationY = 0;
+        bucket.TranslationY = 0;
+        eye1.TranslationY = 0;
+        eye2.TranslationY = 0;
+        button1.TranslationY = 0;
+        button2.TranslationY = 0;
+    }
     private async void OnActionClicked(object sender, EventArgs e)
     {
         if (picker.SelectedItem == null)
@@ -191,55 +264,18 @@ public partial class Lumememm : ContentPage
         switch (action)
         {
             case "Peida lumememm":
-                body.IsVisible = false;
-                head.IsVisible = false;
-                eye1.IsVisible = false;
-                eye2.IsVisible = false;
-                bucket.IsVisible = false;
-                button1.IsVisible = false;
-                button2.IsVisible = false;
+                HideSnowman();
                 break;
 
             case "Näita lumememm":
-                body.IsVisible = false;
-                head.IsVisible = false;
-                eye1.IsVisible = false;
-                eye2.IsVisible = false;
-                bucket.IsVisible = false;
-                button1.IsVisible = false;
-                button2.IsVisible = false;
-
-                body.Opacity = 1;
-                head.Opacity = 1;
-                eye1.Opacity = 1;
-                eye2.Opacity = 1;
-                bucket.Opacity = 1;
-                button1.Opacity = 1;
-                button2.Opacity = 1;
-
-                body.Scale = 1;
-                head.Scale = 1;
-                eye1.Scale = 1;
-                eye2.Scale = 1;
-                bucket.Scale = 1;
-                button1.Scale = 1;
-                button2.Scale = 1;
+                ShowSnowman();
                 break;
 
             case "Muuda värvi":
-                bool answer = await DisplayAlertAsync(
-                    "Värv",
-                    "Kas muuta lumememme värvi?",
-                    "Jah",
-                    "Ei");
-
+                bool answer = await DisplayAlert("Värv", "Kas muuta lumememme värvi?", "Jah", "Ei");
                 if (answer)
                 {
-                    Color randomColor = Color.FromRgb(
-                        random.Next(256),
-                        random.Next(256),
-                        random.Next(256));
-
+                    Color randomColor = Color.FromRgb(random.Next(256), random.Next(256), random.Next(256));
                     body.BackgroundColor = randomColor;
                     head.BackgroundColor = randomColor;
                 }
@@ -247,21 +283,21 @@ public partial class Lumememm : ContentPage
 
             case "Sulata":
                 await Task.WhenAll(
-                    body.ScaleToAsync(0.5, speed),
-                    head.ScaleToAsync(0.5, speed),
-                    eye1.ScaleToAsync(0.5, speed),
-                    eye2.ScaleToAsync(0.5, speed),
-                    bucket.ScaleToAsync(0.5, speed),
-                    button1.ScaleToAsync(0.5, speed),
-                    button2.ScaleToAsync(0.5, speed),
-                    
-                    body.FadeToAsync(0, speed),
-                    head.FadeToAsync(0, speed),
-                    eye1.FadeToAsync(0, speed),
-                    eye2.FadeToAsync(0, speed),
-                    bucket.FadeToAsync(0, speed),
-                    button1.FadeToAsync(0, speed),
-                    button2.FadeToAsync(0, speed)
+                    body.ScaleTo(0.5, speed),
+                    head.ScaleTo(0.5, speed),
+                    bucket.ScaleTo(0.5, speed),
+                    eye1.ScaleTo(0.5, speed),
+                    eye2.ScaleTo(0.5, speed),
+                    button1.ScaleTo(0.5, speed),
+                    button2.ScaleTo(0.5, speed),
+
+                    body.FadeTo(0, speed),
+                    head.FadeTo(0, speed),
+                    bucket.FadeTo(0, speed),
+                    eye1.FadeTo(0, speed),
+                    eye2.FadeTo(0, speed),
+                    button1.FadeTo(0, speed),
+                    button2.FadeTo(0, speed)
                 );
                 break;
 
@@ -277,21 +313,33 @@ public partial class Lumememm : ContentPage
         uint half = speed / 2;
 
         await Task.WhenAll(
-            body.TranslateToAsync(-50, 0, half),
-            head.TranslateToAsync(-50, 0, half),
-            bucket.TranslateToAsync(-50, 0, half)
+            body.TranslateTo(-50, 0, half),
+            head.TranslateTo(-50, 0, half),
+            bucket.TranslateTo(-50, 0, half),
+            eye1.TranslateTo(-50, 0, half),
+            eye2.TranslateTo(-50, 0, half),
+            button1.TranslateTo(-50, 0, half),
+            button2.TranslateTo(-50, 0, half)
         );
 
         await Task.WhenAll(
-            body.TranslateToAsync(50, 0, half),
-            head.TranslateToAsync(50, 0, half),
-            bucket.TranslateToAsync(50, 0, half)
+            body.TranslateTo(50, 0, half),
+            head.TranslateTo(50, 0, half),
+            bucket.TranslateTo(50, 0, half),
+            eye1.TranslateTo(50, 0, half),
+            eye2.TranslateTo(50, 0, half),
+            button1.TranslateTo(50, 0, half),
+            button2.TranslateTo(50, 0, half)
         );
 
         await Task.WhenAll(
-            body.TranslateToAsync(0, 0, half),
-            head.TranslateToAsync(0, 0, half),
-            bucket.TranslateToAsync(0, 0, half)
+            body.TranslateTo(0, 0, half),
+            head.TranslateTo(0, 0, half),
+            bucket.TranslateTo(0, 0, half),
+            eye1.TranslateTo(0, 0, half),
+            eye2.TranslateTo(0, 0, half),
+            button1.TranslateTo(0, 0, half),
+            button2.TranslateTo(0, 0, half)
         );
     }
 
@@ -300,21 +348,21 @@ public partial class Lumememm : ContentPage
         body.Opacity = e.NewValue;
         head.Opacity = e.NewValue;
         bucket.Opacity = e.NewValue;
+        eye1.Opacity = e.NewValue;
+        eye2.Opacity = e.NewValue;
+        button1.Opacity = e.NewValue;
+        button2.Opacity = e.NewValue;
     }
+
     private void Liikumine(object? sender, EventArgs e)
     {
         Button nupp = sender as Button;
+
         if (nupp.ZIndex == 0)
-        {
             Navigation.PushAsync(new RGB_Page());
-        }
         else if (nupp.ZIndex == 1)
-        {
             Navigation.PopToRootAsync();
-        }
         else if (nupp.ZIndex == 2)
-        {
             Navigation.PushAsync(new PopUp());
-        }
     }
 }
