@@ -19,7 +19,7 @@ public partial class Lumememm : ContentPage
     public Lumememm()
     {
         BackgroundImageSource = "lumememm.jpg";
-
+        Title = "Lumememm";
         AbsoluteLayout absoluteLayout = new AbsoluteLayout
         {
             HeightRequest = 350
