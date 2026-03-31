@@ -1,3 +1,5 @@
+using Microsoft.Maui.Controls;
+
 namespace Naidis_Osa1;
 
 public partial class RGB_Page : ContentPage
@@ -5,6 +7,7 @@ public partial class RGB_Page : ContentPage
     Label lbl, redlbl, greenlbl, bluelbl;
     BoxView bv, redbv, greenbv, bluebv;
     Slider redSlider, greenSlider, blueSlider;
+    Stepper stepper;
     ScrollView sv;
     HorizontalStackLayout hsl, hsl1, hsl2;
     VerticalStackLayout vsl;
@@ -77,6 +80,15 @@ public partial class RGB_Page : ContentPage
             HorizontalOptions = LayoutOptions.Center,
             CornerRadius = 15,
         };
+        stepper = new Stepper
+        {
+            Minimum = 0,
+            Maximum = 360,
+            Increment = 5,
+            Value = 50,
+            HorizontalOptions = LayoutOptions.Center
+        };
+        stepper.ValueChanged += Stepper_size;
         redSlider = new Slider
         {
             Minimum = 0,
@@ -153,10 +165,16 @@ public partial class RGB_Page : ContentPage
             Padding = 20,
             Spacing = 15,
             HorizontalOptions = LayoutOptions.Center,
-            Children = { lbl, bv, redSlider, greenSlider, blueSlider, hsl1, hsl2, hsl }
+            Children = { lbl, bv, stepper, redSlider, greenSlider, blueSlider, hsl1, hsl2, hsl }
         };
         sv = new ScrollView { Content = vsl };
         Content = sv;
+    }
+    private void Stepper_size(object sender, ValueChangedEventArgs e)
+    {
+        bv.WidthRequest = 200 + e.NewValue / 4;
+        bv.HeightRequest = 200 + e.NewValue / 4;
+        bv.CornerRadius = 30 + e.NewValue / 4;
     }
     private void OnSliderValueChanger(object sender, ValueChangedEventArgs args)
     {
