@@ -6,7 +6,6 @@ namespace Naidis_Osa1;
 public partial class Lumememm : ContentPage
 {
     Frame body, head, bucket, button1, button2, button3, eye1, eye2;
-    Polygon nose;
     Picker picker;
     Label lbl;
     Slider Slider;
@@ -18,11 +17,7 @@ public partial class Lumememm : ContentPage
     List<string> nupud = new List<string>() { "Tagasi", "Avaleht", "Edasi" };
     public Lumememm()
     {
-        //head.HasShadow = false;
-        //body.HasShadow = false;
         BackgroundColor = Colors.LightSkyBlue;
-
-        // ===== Lumememm (AbsoluteLayout) =====
         AbsoluteLayout absoluteLayout = new AbsoluteLayout
         {
             HeightRequest = 350
@@ -75,30 +70,6 @@ public partial class Lumememm : ContentPage
             HeightRequest = 3,
             WidthRequest = 3
         };
-        //nose = new Polygon
-        //{
-        //    Points = new PointCollection
-        //    {
-        //        new Point(0, 0.5),
-        //        new Point(1, 0),
-        //        new Point(1, 1)
-        //    },
-        //    Fill = new SolidColorBrush(Colors.Orange),
-        //    Stroke = Colors.Orange,
-        //    StrokeThickness = 5
-        //};
-        var nose = new Polygon
-        {
-            Points = new PointCollection
-            {
-                new Point(0, 15),   
-                new Point(15, 5),    
-                new Point(15, 15)    
-            },
-            Fill = Colors.Orange,
-            WidthRequest = 25,
-            HeightRequest = 15
-        };
         AbsoluteLayout.SetLayoutBounds(body, new Rect(0.5, 1, 160, 160));
         AbsoluteLayout.SetLayoutFlags(body, AbsoluteLayoutFlags.PositionProportional);
 
@@ -120,21 +91,14 @@ public partial class Lumememm : ContentPage
         AbsoluteLayout.SetLayoutBounds(eye2, new Rect(0.568, 0.42, 3, 3));
         AbsoluteLayout.SetLayoutFlags(eye2, AbsoluteLayoutFlags.PositionProportional);
 
-        AbsoluteLayout.SetLayoutBounds(nose, new Rect(0.5, 0.42, -1, -1));
-        AbsoluteLayout.SetLayoutFlags(nose, AbsoluteLayoutFlags.PositionProportional);
-
         absoluteLayout.Children.Add(body);
         absoluteLayout.Children.Add(head);
         absoluteLayout.Children.Add(eye1);
         absoluteLayout.Children.Add(eye2);
-        absoluteLayout.Children.Add(nose);
         absoluteLayout.Children.Add(bucket);
         absoluteLayout.Children.Add(button1);
         absoluteLayout.Children.Add(button2);
         
-
-
-        // ===== Picker =====
         picker = new Picker { Title = "Vali tegevus" };
         picker.Items.Add("Peida lumememm");
         picker.Items.Add("Näita lumememm");
@@ -142,21 +106,18 @@ public partial class Lumememm : ContentPage
         picker.Items.Add("Sulata");
         picker.Items.Add("Tantsi");
 
-        // ===== Button =====
         Button actionButton = new Button
         {
             Text = "Käivita tegevus"
         };
         actionButton.Clicked += OnActionClicked;
 
-        // ===== Label =====
         lbl = new Label
         {
             FontSize = 18,
             HorizontalOptions = LayoutOptions.Center
         };
 
-        // ===== Slider =====
         Label sliderlbl = new Label { Text = "Läbipaistvus" };
         Slider = new Slider
         {
@@ -166,7 +127,6 @@ public partial class Lumememm : ContentPage
         };
         Slider.ValueChanged += OnSliderChanged;
 
-        // ===== Stepper =====
         Label stepperlbl = new Label { Text = "Kiirus (ms)" };
         speedStepper = new Stepper
         {
@@ -233,21 +193,37 @@ public partial class Lumememm : ContentPage
             case "Peida lumememm":
                 body.IsVisible = false;
                 head.IsVisible = false;
+                eye1.IsVisible = false;
+                eye2.IsVisible = false;
                 bucket.IsVisible = false;
+                button1.IsVisible = false;
+                button2.IsVisible = false;
                 break;
 
             case "Näita lumememm":
-                body.IsVisible = true;
-                head.IsVisible = true;
-                bucket.IsVisible = true;
+                body.IsVisible = false;
+                head.IsVisible = false;
+                eye1.IsVisible = false;
+                eye2.IsVisible = false;
+                bucket.IsVisible = false;
+                button1.IsVisible = false;
+                button2.IsVisible = false;
 
                 body.Opacity = 1;
                 head.Opacity = 1;
+                eye1.Opacity = 1;
+                eye2.Opacity = 1;
                 bucket.Opacity = 1;
+                button1.Opacity = 1;
+                button2.Opacity = 1;
 
                 body.Scale = 1;
                 head.Scale = 1;
+                eye1.Scale = 1;
+                eye2.Scale = 1;
                 bucket.Scale = 1;
+                button1.Scale = 1;
+                button2.Scale = 1;
                 break;
 
             case "Muuda värvi":
@@ -273,10 +249,19 @@ public partial class Lumememm : ContentPage
                 await Task.WhenAll(
                     body.ScaleToAsync(0.5, speed),
                     head.ScaleToAsync(0.5, speed),
+                    eye1.ScaleToAsync(0.5, speed),
+                    eye2.ScaleToAsync(0.5, speed),
                     bucket.ScaleToAsync(0.5, speed),
+                    button1.ScaleToAsync(0.5, speed),
+                    button2.ScaleToAsync(0.5, speed),
+                    
                     body.FadeToAsync(0, speed),
                     head.FadeToAsync(0, speed),
-                    bucket.FadeToAsync(0, speed)
+                    eye1.FadeToAsync(0, speed),
+                    eye2.FadeToAsync(0, speed),
+                    bucket.FadeToAsync(0, speed),
+                    button1.FadeToAsync(0, speed),
+                    button2.FadeToAsync(0, speed)
                 );
                 break;
 

@@ -4,6 +4,8 @@ namespace Naidis_Osa1;
 
 public partial class Valgusfoor : ContentPage
 {
+    private bool isActive = false;
+    CancellationTokenSource _cts;
     Button btn_sisse, btn_valja, btn_oo, btn_auto;
     Label lbl;
     Grid bg;
@@ -14,7 +16,7 @@ public partial class Valgusfoor : ContentPage
     List<string> nupud = new List<string>() { "Tagasi", "Avaleht", "Edasi" };
     public Valgusfoor()
     {
-        BackgroundColor = Color.FromHex("#EDE0D4");
+        BackgroundImageSource = "valgus_day.jpg";
         Title = "Valgusfoor";
         bg = new Grid
         {
@@ -174,6 +176,7 @@ public partial class Valgusfoor : ContentPage
     }
     private void Btn_valja_Click(object? sender, EventArgs e)
     {
+        BackgroundImageSource = "valgus_day.jpg";
         red.Fill = Colors.Gray;
         yellow.Fill = Colors.Gray;
         green.Fill = Colors.Gray;
@@ -182,15 +185,14 @@ public partial class Valgusfoor : ContentPage
     }
     private void Btn_sisse_Click(object? sender, EventArgs e)
     {
+        BackgroundImageSource = "valgus_day.jpg";
         red.Fill = Colors.Red;
         yellow.Fill = Colors.Yellow;
         green.Fill = Colors.Green;
     }
-    private bool isActive = false;
-    private CancellationTokenSource _cts;
-
     private async void Btn_oo_Click(object sender, EventArgs e)
     {
+        BackgroundImageSource = "valgus_night.jpg";
         lbl.Text = "Ööreþiim";
         if (!isActive)
         {
@@ -218,6 +220,7 @@ public partial class Valgusfoor : ContentPage
     }
     private async void Btn_auto_Click(object? sender, EventArgs e)
     {
+        BackgroundImageSource = "valgus_day.jpg";
         if (!isActive)
         {
             isActive = true;
