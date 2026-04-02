@@ -29,7 +29,7 @@ public partial class PopUp : ContentPage
             Text = "Alusta mängu",
             BackgroundColor = Color.FromHex("#E6CCB2"),
             TextColor = Color.FromHex("#7F5539"),
-            FontFamily = "LowerWestSide400",
+            FontFamily = "OpenSansSemibold",
             BorderWidth = 2,
             CornerRadius = 10
         };
@@ -85,7 +85,7 @@ public partial class PopUp : ContentPage
     }
     private async void StartGame(object sender, EventArgs e)
     {
-        string mode = await DisplayActionSheet(
+        string mode = await DisplayActionSheetAsync(
             "Kes hakkab arvama?",
             "Loobu", null,
             "Mina arvan",
@@ -98,7 +98,7 @@ public partial class PopUp : ContentPage
 
         if (!int.TryParse(minStr, out min) || !int.TryParse(maxStr, out max) || min >= max)
         {
-            await DisplayAlert("Viga", "Vale vahemik!", "OK");
+            await DisplayAlertAsync("Viga", "Vale vahemik!", "OK");
             return;
         }
 
@@ -116,17 +116,17 @@ public partial class PopUp : ContentPage
             string guessStr = await DisplayPromptAsync("Sinu kord", $"Sisesta number vahemikus {min}–{max}:");
             if (!int.TryParse(guessStr, out int guess))
             {
-                await DisplayAlert("Viga", "Palun sisesta number!", "OK");
+                await DisplayAlertAsync("Viga", "Palun sisesta number!", "OK");
                 continue;
             }
 
             if (guess < secret)
-                await DisplayAlert("Vihje", "Õige number on SUUREM", "OK");
+                await DisplayAlertAsync("Vihje", "Õige number on SUUREM", "OK");
             else if (guess > secret)
-                await DisplayAlert("Vihje", "Õige number on VÄIKSEM", "OK");
+                await DisplayAlertAsync("Vihje", "Õige number on VÄIKSEM", "OK");
             else
             {
-                await DisplayAlert("Võit!", "Sa arvasid numbri ära!", "Hurraa!");
+                await DisplayAlertAsync("Võit!", "Sa arvasid numbri ära!", "Hurraa!");
                 break;
             }
         }
@@ -136,13 +136,13 @@ public partial class PopUp : ContentPage
         int low = min;
         int high = max;
 
-        await DisplayAlert("Alustame!", $"Mõtle välja number vahemikus {min}–{max} ja vajuta OK", "OK");
+        await DisplayAlertAsync("Alustame!", $"Mõtle välja number vahemikus {min}–{max} ja vajuta OK", "OK");
 
         while (low <= high)
         {
             int botGuess = (low + high) / 2;
 
-            string answer = await DisplayActionSheet(
+            string answer = await DisplayActionSheetAsync(
                 $"Kas sinu number on {botGuess}?",
                 "Loobu", null,
                 "Suurem",
@@ -153,7 +153,7 @@ public partial class PopUp : ContentPage
 
             if (answer == "Jah")
             {
-                await DisplayAlert("Võit!", "Bot arvas numbri ära!", "OK");
+                await DisplayAlertAsync("Võit!", "Bot arvas numbri ära!", "OK");
                 return;
             }
             else if (answer == "Suurem")
@@ -162,6 +162,6 @@ public partial class PopUp : ContentPage
                 high = botGuess - 1;
         }
 
-        await DisplayAlert("Viga", "Midagi läks valesti. Võib?olla vastasid valesti.", "OK");
+        await DisplayAlertAsync("Viga", "Midagi läks valesti. Võib?olla vastasid valesti.", "OK");
     }
 }

@@ -4,17 +4,28 @@ namespace Naidis_Osa1;
 
 public partial class Trips_Traps_Trull : ContentPage
 {
-    private Button[,] buttons = new Button[3, 3];
-    private string currentPlayer = "X";
-    private bool gameOver = false;
-    ScrollView sv;
-    Label lbl;
-    HorizontalStackLayout hsl;
+    Label lbl, lblTurn;
+    Grid grid;
+    Button btnStart, btnWhoStarts, btnNewGame;
+    HorizontalStackLayout hslNav;
     VerticalStackLayout vsl;
-    List<string> nupud = new List<string>() { "Tagasi", "Avaleht", "Edasi" };
+    ScrollView sv;
+
+    string player1Name = "Mängija 1";
+    string player2Name = "Mängija 2";
+    string player1Symbol = "X";
+    string player2Symbol = "O";
+
+    bool isRobotPlaying = false;
+    bool gameOver = false;
+    bool isXTurn = true;
+
+    List<string> navButtons = new() { "Tagasi", "Avaleht", "Edasi" };
+
     public Trips_Traps_Trull()
     {
         BackgroundColor = Color.FromHex("#D1CBC7");
+        Title = "Trips Traps Trull";
         lbl = new Label
         {
             Text = "Trips Traps Trull",
@@ -25,25 +36,103 @@ public partial class Trips_Traps_Trull : ContentPage
             FontAttributes = FontAttributes.Bold
         };
 
-        // Кнопки управления
-        Button newGameBtn = new Button
+        lblTurn = new Label
         {
-            Text = "Uus mäng",
-            TextColor = Color.FromHex("#D1CBC7"),
-            BackgroundColor = Color.FromHex("#907564")
+            FontSize = 22,
+            HorizontalOptions = LayoutOptions.Center,
+            TextColor = Color.FromHex("#907564")
         };
-        newGameBtn.Clicked += NewGame;
 
-        Button whoStartsBtn = new Button
+        btnStart = new Button
+        {
+            Text = "Alusta mäng",
+            FontSize = 24,
+            TextColor = Color.FromHex("#D1CBC7"),
+            BackgroundColor = Color.FromHex("#907564"),
+            HorizontalOptions = LayoutOptions.Center
+        };
+        btnStart.Clicked += Options;
+
+        btnWhoStarts = new Button
         {
             Text = "Kes alustab?",
             TextColor = Color.FromHex("#D1CBC7"),
             BackgroundColor = Color.FromHex("#907564")
         };
-        whoStartsBtn.Clicked += WhoStarts;
+        btnWhoStarts.Clicked += WhoStarts;
 
-        // Игровое поле
-        Grid grid = new Grid();
+        btnNewGame = new Button
+        {
+            Text = "Uus mäng",
+            TextColor = Color.FromHex("#D1CBC7"),
+            BackgroundColor = Color.FromHex("#907564")
+        };
+        btnNewGame.Clicked += NewGame;
+        grid = new Grid
+        {
+            HorizontalOptions = LayoutOptions.Center,
+            VerticalOptions = LayoutOptions.Center
+        };
+
+        hslNav = new HorizontalStackLayout
+        {
+            Spacing = 20,
+            HorizontalOptions = LayoutOptions.Center
+        };
+
+        foreach (var name in navButtons)
+        {
+            Button b = new Button
+            {
+                Text = name,
+                FontSize = 28,
+                FontFamily = "LowerWestSide400",
+                TextColor = Color.FromHex("#D1CBC7"),
+                BackgroundColor = Color.FromHex("#907564"),
+                CornerRadius = 10,
+                HeightRequest = 50,
+                ZIndex = navButtons.IndexOf(name)
+            };
+            b.Clicked += NavigationClick;
+            hslNav.Add(b);
+        }
+
+        vsl = new VerticalStackLayout
+        {
+            Padding = 20,
+            Spacing = 15,
+            HorizontalOptions = LayoutOptions.Center,
+            Children = { lbl, btnStart, hslNav }
+        };
+
+        sv = new ScrollView { Content = vsl };
+        Content = sv;
+    }
+    private async void Options(object? sender, EventArgs e)
+    {
+        bool answer = await DisplayAlertAsync("Küsimus", "Kas mängid robotiga?", "Jah", "Ei");
+        isRobotPlaying = answer;
+
+        string? name1 = await DisplayPromptAsync("Mängija 1", "Mis on mängija 1 nimi?");
+        if (string.IsNullOrWhiteSpace(name1)) name1 = "Mängija 1";
+        player1Name = name1;
+
+        if (!isRobotPlaying)
+        {
+            string? name2 = await DisplayPromptAsync("Mängija 2", "Mis on mängija 2 nimi?");
+            if (string.IsNullOrWhiteSpace(name2)) name2 = "Mängija 2";
+            player2Name = name2;
+        }
+        else player2Name = "Robot";
+
+        SetupGrid();
+        ResetGame();
+    }
+    private void SetupGrid()
+    {
+        grid.RowDefinitions.Clear();
+        grid.ColumnDefinitions.Clear();
+        grid.Children.Clear();
 
         for (int i = 0; i < 3; i++)
         {
@@ -51,339 +140,222 @@ public partial class Trips_Traps_Trull : ContentPage
             grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Star });
         }
 
-        for (int row = 0; row < 3; row++)
+        for (int r = 0; r < 3; r++)
         {
-            for (int col = 0; col < 3; col++)
+            for (int c = 0; c < 3; c++)
             {
-                var button = new Button
+                Border frame = new Border
                 {
-                    FontSize = 40,
-                    BackgroundColor = Color.FromHex("#907564")
+                    BackgroundColor = Color.FromHex("#907564"),
+                    Padding = 0,
+                    MinimumHeightRequest = 70,
+                    MinimumWidthRequest = 70
                 };
 
-                button.Clicked += OnButtonClicked;
+                Label label = new Label
+                {
+                    Text = "",
+                    FontSize = 40,
+                    TextColor = Color.FromHex("#D1CBC7"),
+                    HorizontalOptions = LayoutOptions.Center,
+                    VerticalOptions = LayoutOptions.Center,
+                    HorizontalTextAlignment = TextAlignment.Center,
+                    VerticalTextAlignment = TextAlignment.Center
+                };
 
-                buttons[row, col] = button;
-                grid.Add(button, col, row);
+                frame.Content = label;
+                grid.Add(frame, c, r);
+
+                var tap = new TapGestureRecognizer();
+                tap.Tapped += CellTapped;
+                frame.GestureRecognizers.Add(tap);
             }
         }
 
-        hsl = new HorizontalStackLayout
+        vsl.Children.Clear();
+        vsl.Children.Add(lbl);
+
+        HorizontalStackLayout hslTop = new()
         {
             Spacing = 20,
-            HorizontalOptions = LayoutOptions.Center
-        };
-        for (int j = 0; j < nupud.Count; j++)
-        {
-            Button nupp = new Button
-            {
-                Text = nupud[j],
-                FontSize = 28,
-                FontFamily = "LowerWestSide400",
-                TextColor = Color.FromHex("#D1CBC7"),
-                BackgroundColor = Color.FromHex("#907564"),
-                CornerRadius = 10,
-                HeightRequest = 50,
-                ZIndex = j
-            };
-            hsl.Add(nupp);
-            nupp.Clicked += Liikumine;
-        }
-        vsl = new VerticalStackLayout
-        {
-            Padding = 20,
-            Spacing = 15,
             HorizontalOptions = LayoutOptions.Center,
-            Children = { lbl, grid, whoStartsBtn, newGameBtn, hsl }
+            Children = { btnWhoStarts, btnNewGame, }
         };
-        sv = new ScrollView { Content = vsl };
-        Content = sv;
+
+        vsl.Children.Add(lblTurn);
+        vsl.Children.Add(grid);
+        vsl.Children.Add(hslTop);
+        vsl.Children.Add(hslNav);
     }
-    private void OnButtonClicked(object sender, EventArgs e)
+    private async void CellTapped(object? sender, EventArgs e)
     {
         if (gameOver) return;
+        if (sender is not Border frame) return;
 
-        Button button = (Button)sender;
-        if (!string.IsNullOrEmpty(button.Text)) return;
+        int row = Grid.GetRow(frame);
+        int col = Grid.GetColumn(frame);
 
-        button.Text = "X";
-        button.TextColor = Colors.Red;
-
-        if (CheckWinner()) { EndGame("X"); return; }
-        if (IsDraw()) { gameOver = true; DisplayAlert("Mäng läbi", "Viik!", "OK"); return; }
-
-        currentPlayer = "O";
-        SmartBotMove();
-        //if (gameOver) return;
-
-        //Button button = (Button)sender;
-
-        //if (!string.IsNullOrEmpty(button.Text))
-        //    return;
-
-        //// Человек ходит
-        //button.Text = "X";
-        //button.TextColor = Colors.Red;
-
-        //if (CheckWinner())
-        //{
-        //    gameOver = true;
-        //    DisplayAlert("Mäng läbi", "X võitis!", "OK");
-        //    return;
-        //}
-
-        //if (IsDraw())
-        //{
-        //    gameOver = true;
-        //    DisplayAlert("Mäng läbi", "Viik!", "OK");
-        //    return;
-        //}
-
-        //// Теперь ход бота
-        //currentPlayer = "O";
-        //BotMove();
-        //if (gameOver) return;
-
-        //Button button = (Button)sender;
-
-        //if (!string.IsNullOrEmpty(button.Text))
-        //    return;
-
-        //button.Text = currentPlayer;
-
-        //if (currentPlayer == "X")
-        //    button.TextColor = Colors.Red;  
-        //else
-        //    button.TextColor = Colors.Blue;
-
-        //if (CheckWinner())
-        //{
-        //    gameOver = true;
-        //    DisplayAlertAsync("Mäng läbi", $"{currentPlayer} võitis!", "OK");
-        //    return;
-        //}
-
-        //if (IsDraw())
-        //{
-        //    gameOver = true;
-        //    DisplayAlertAsync("Mäng läbi", "Viik!", "OK");
-        //    return;
-        //}
-
-        //if (currentPlayer == "X")
-        //{
-        //    currentPlayer = "O";
-        //}
-        //else
-        //{
-        //    currentPlayer = "X";
-        //}
+        await MakeMove(row, col);
     }
-    private void BotMove()
-    {
-        if (gameOver) return;
 
-        // Собираем все свободные кнопки
-        List<Button> freeButtons = new List<Button>();
-        for (int row = 0; row < 3; row++)
+    private Label GetLabel(int row, int col)
+    {
+        foreach (var child in grid.Children)
         {
-            for (int col = 0; col < 3; col++)
-            {
-                if (string.IsNullOrEmpty(buttons[row, col].Text))
-                    freeButtons.Add(buttons[row, col]);
-            }
+            if (child is Border f &&
+                Grid.GetRow(f) == row &&
+                Grid.GetColumn(f) == col &&
+                f.Content is Label lbl)
+                return lbl;
         }
+        return null;
+    }
+    private async Task MakeMove(int row, int col)
+    {
+        var label = GetLabel(row, col);
+        if (label == null || label.Text != "") return;
 
-        if (freeButtons.Count == 0) return; // нет свободных клеток
+        string symbol = isXTurn ? player1Symbol : player2Symbol;
+        string name = isXTurn ? player1Name : player2Name;
 
-        // Выбираем случайную клетку
-        Random rnd = new Random();
-        Button chosen = freeButtons[rnd.Next(freeButtons.Count)];
+        label.Text = symbol;
 
-        // Ставим символ бота
-        chosen.Text = "O";
-        chosen.TextColor = Colors.Blue;
-
-        // Проверяем победу
-        if (CheckWinner())
+        if (CheckWinner(symbol))
         {
             gameOver = true;
-            DisplayAlert("Mäng läbi", "O võitis!", "OK");
+            await DisplayAlertAsync("Mäng läbi", $"{name} võitis!", "OK");
             return;
         }
 
         if (IsDraw())
         {
             gameOver = true;
-            DisplayAlert("Mäng läbi", "Viik!", "OK");
+            await DisplayAlertAsync("Mäng läbi", "Viik!", "OK");
             return;
         }
 
-        // После хода бота ход возвращается к человеку
-        currentPlayer = "X";
+        isXTurn = !isXTurn;
+        lblTurn.Text = $"Mängib {(isXTurn ? player1Name : player2Name)}";
+
+        if (isRobotPlaying && !isXTurn)
+            await SmartBotMove();
     }
-    private void Highlight(Button b1, Button b2, Button b3)
+    private async Task SmartBotMove()
     {
-        b1.TextColor = Colors.Black;
-        b2.TextColor = Colors.Black;
-        b3.TextColor = Colors.Black;
+        await Task.Delay(300);
+
+        if (TryToWinOrBlock(player2Symbol)) return;
+        if (TryToWinOrBlock(player1Symbol)) return;
+
+        var empty = GetEmptyCells();
+        if (empty.Count > 0)
+        {
+            var rnd = new Random();
+            var move = empty[rnd.Next(empty.Count)];
+            await MakeMove(move.row, move.col);
+        }
     }
-    private void SmartBotMove()
+
+    private bool TryToWinOrBlock(string symbol)
     {
-        if (gameOver) return;
+        for (int i = 0; i < 3; i++)
+        {
+            if (TryLine(i, 0, i, 1, i, 2, symbol)) return true;
+            if (TryLine(0, i, 1, i, 2, i, symbol)) return true;
+        }
 
-        // 1. Попробовать выиграть
-        if (TryToWinOrBlock("O")) return;
+        if (TryLine(0, 0, 1, 1, 2, 2, symbol)) return true;
+        if (TryLine(0, 2, 1, 1, 2, 0, symbol)) return true;
 
-        // 2. Заблокировать X
-        if (TryToWinOrBlock("X")) return;
+        return false;
+    }
 
-        // 3. Иначе случайный ход
-        Random rnd = new Random();
-        List<Button> free = new List<Button>();
+    private bool TryLine(int r1, int c1, int r2, int c2, int r3, int c3, string symbol)
+    {
+        var b1 = GetLabel(r1, c1);
+        var b2 = GetLabel(r2, c2);
+        var b3 = GetLabel(r3, c3);
+
+        var line = new[] { b1, b2, b3 };
+        int count = line.Count(l => l.Text == symbol);
+        var empty = line.FirstOrDefault(l => l.Text == "");
+
+        if (count == 2 && empty != null)
+        {
+            int row = Grid.GetRow(empty.Parent as Border);
+            int col = Grid.GetColumn(empty.Parent as Border);
+            _ = MakeMove(row, col);
+            return true;
+        }
+
+        return false;
+    }
+
+    private List<(int row, int col)> GetEmptyCells()
+    {
+        var list = new List<(int, int)>();
         for (int r = 0; r < 3; r++)
             for (int c = 0; c < 3; c++)
-                if (string.IsNullOrEmpty(buttons[r, c].Text))
-                    free.Add(buttons[r, c]);
-
-        if (free.Count == 0) return;
-
-        Button chosen = free[rnd.Next(free.Count)];
-        chosen.Text = "O";
-        chosen.TextColor = Colors.Blue;
-
-        if (CheckWinner()) EndGame("O");
-        else currentPlayer = "X";
+                if (GetLabel(r, c).Text == "")
+                    list.Add((r, c));
+        return list;
     }
-    private bool TryLine(Button b1, Button b2, Button b3, string player)
-    {
-        Button[] line = new Button[] { b1, b2, b3 };
-        int countPlayer = 0;
-        Button empty = null;
-
-        foreach (var b in line)
-        {
-            if (b.Text == player) countPlayer++;
-            else if (string.IsNullOrEmpty(b.Text)) empty = b;
-        }
-
-        if (countPlayer == 2 && empty != null)
-        {
-            // Если player = O => бот выиграл
-            // Если player = X => блокируем
-            empty.Text = "O";
-            empty.TextColor = Colors.Blue;
-
-            if (CheckWinner()) EndGame("O");
-            else currentPlayer = "X";
-
-            return true;
-        }
-
-        return false;
-    }
-    private void EndGame(string winner)
-    {
-        gameOver = true;
-        DisplayAlert("Mäng läbi", $"{winner} võitis!", "OK");
-    }
-    private bool TryToWinOrBlock(string player)
+    private bool CheckWinner(string symbol)
     {
         for (int i = 0; i < 3; i++)
         {
-            // Проверка строк
-            if (TryLine(buttons[i, 0], buttons[i, 1], buttons[i, 2], player)) return true;
-            // Проверка колонок
-            if (TryLine(buttons[0, i], buttons[1, i], buttons[2, i], player)) return true;
+            if (Enumerable.Range(0, 3).All(j => GetLabel(i, j).Text == symbol)) return true;
+            if (Enumerable.Range(0, 3).All(j => GetLabel(j, i).Text == symbol)) return true;
         }
 
-        // Диагонали
-        if (TryLine(buttons[0, 0], buttons[1, 1], buttons[2, 2], player)) return true;
-        if (TryLine(buttons[0, 2], buttons[1, 1], buttons[2, 0], player)) return true;
+        if (Enumerable.Range(0, 3).All(i => GetLabel(i, i).Text == symbol)) return true;
+        if (Enumerable.Range(0, 3).All(i => GetLabel(i, 2 - i).Text == symbol)) return true;
 
-        return false;
-    }
-    private bool CheckWinner()
-    {
-        for (int i = 0; i < 3; i++)
-        {
-            if (buttons[i, 0].Text == currentPlayer &&
-                buttons[i, 1].Text == currentPlayer &&
-                buttons[i, 2].Text == currentPlayer)
-            {
-                Highlight(buttons[i, 0], buttons[i, 1], buttons[i, 2]);
-                return true;
-            }
-
-            if (buttons[0, i].Text == currentPlayer &&
-                buttons[1, i].Text == currentPlayer &&
-                buttons[2, i].Text == currentPlayer)
-            {
-                Highlight(buttons[0, i], buttons[1, i], buttons[2, i]);
-                return true;
-            }
-        }
-        if (buttons[0, 0].Text == currentPlayer &&
-            buttons[1, 1].Text == currentPlayer &&
-            buttons[2, 2].Text == currentPlayer)
-        {
-            Highlight(buttons[0, 0], buttons[1, 1], buttons[2, 2]);
-            return true;
-        }
-
-        if (buttons[0, 2].Text == currentPlayer &&
-            buttons[1, 1].Text == currentPlayer &&
-            buttons[2, 0].Text == currentPlayer)
-        {
-            Highlight(buttons[0, 2], buttons[1, 1], buttons[2, 0]);
-            return true;
-        }
         return false;
     }
 
     private bool IsDraw()
     {
-        foreach (var button in buttons)
+        foreach (var child in grid.Children)
         {
-            if (string.IsNullOrEmpty(button.Text))
+            if (child is Border f && f.Content is Label lbl && lbl.Text == "")
                 return false;
         }
         return true;
     }
-
     private void NewGame(object sender, EventArgs e)
     {
-        
-        foreach (var button in buttons)
-        {
-            button.Text = "";
-            if (button.Text == "X") button.TextColor = Colors.Red;
-            else button.TextColor = Colors.Green;
-        }
-        currentPlayer = "X";
-        gameOver = false;
+        ResetGame();
     }
 
     private void WhoStarts(object sender, EventArgs e)
     {
         Random rnd = new Random();
-        currentPlayer = rnd.Next(2) == 0 ? "X" : "O";
-        DisplayAlertAsync("Info", $"{currentPlayer} alustab!", "OK");
+        isXTurn = rnd.Next(2) == 0;
+        lblTurn.Text = $"{(isXTurn ? "X" : "O")} alustab!";
     }
-    private void Liikumine(object? sender, EventArgs e)
+
+    private void ResetGame()
     {
-        Button nupp = sender as Button;
-        if (nupp.ZIndex == 0)
+        foreach (var child in grid.Children)
         {
+            if (child is Border f && f.Content is Label lbl)
+                lbl.Text = "";
+        }
+
+        gameOver = false;
+        isXTurn = true;
+        lblTurn.Text = $"Mängib {player1Name}";
+    }
+    private void NavigationClick(object? sender, EventArgs e)
+    {
+        Button b = sender as Button;
+
+        if (b.ZIndex == 0)
             Navigation.PushAsync(new PickerImagePage());
-        }
-        else if (nupp.ZIndex == 1)
-        {
+        else if (b.ZIndex == 1)
             Navigation.PopToRootAsync();
-        }
-        else if (nupp.ZIndex == 2)
-        {
+        else if (b.ZIndex == 2)
             Navigation.PushAsync(new Trips_Traps_Trull());
-        }
     }
 }

@@ -272,7 +272,7 @@ public partial class Lumememm : ContentPage
                 break;
 
             case "Muuda värvi":
-                bool answer = await DisplayAlert("Värv", "Kas muuta lumememme värvi?", "Jah", "Ei");
+                bool answer = await DisplayAlertAsync("Värv", "Kas muuta lumememme värvi?", "Jah", "Ei");
                 if (answer)
                 {
                     Color randomColor = Color.FromRgb(random.Next(256), random.Next(256), random.Next(256));
@@ -283,21 +283,21 @@ public partial class Lumememm : ContentPage
 
             case "Sulata":
                 await Task.WhenAll(
-                    body.ScaleTo(0.5, speed),
-                    head.ScaleTo(0.5, speed),
-                    bucket.ScaleTo(0.5, speed),
-                    eye1.ScaleTo(0.5, speed),
-                    eye2.ScaleTo(0.5, speed),
-                    button1.ScaleTo(0.5, speed),
-                    button2.ScaleTo(0.5, speed),
+                    body.ScaleToAsync(0.5, speed),
+                    head.ScaleToAsync(0.5, speed),
+                    bucket.ScaleToAsync(0.5, speed),
+                    eye1.ScaleToAsync(0.5, speed),
+                    eye2.ScaleToAsync(0.5, speed),
+                    button1.ScaleToAsync(0.5, speed),
+                    button2.ScaleToAsync(0.5, speed),
 
-                    body.FadeTo(0, speed),
-                    head.FadeTo(0, speed),
-                    bucket.FadeTo(0, speed),
-                    eye1.FadeTo(0, speed),
-                    eye2.FadeTo(0, speed),
-                    button1.FadeTo(0, speed),
-                    button2.FadeTo(0, speed)
+                    body.FadeToAsync(0, speed),
+                    head.FadeToAsync(0, speed),
+                    bucket.FadeToAsync(0, speed),
+                    eye1.FadeToAsync(0, speed),
+                    eye2.FadeToAsync(0, speed),
+                    button1.FadeToAsync(0, speed),
+                    button2.FadeToAsync(0, speed)
                 );
                 break;
 
@@ -313,33 +313,33 @@ public partial class Lumememm : ContentPage
         uint half = speed / 2;
 
         await Task.WhenAll(
-            body.TranslateTo(-50, 0, half),
-            head.TranslateTo(-50, 0, half),
-            bucket.TranslateTo(-50, 0, half),
-            eye1.TranslateTo(-50, 0, half),
-            eye2.TranslateTo(-50, 0, half),
-            button1.TranslateTo(-50, 0, half),
-            button2.TranslateTo(-50, 0, half)
+            body.TranslateToAsync(-50, 0, half),
+            head.TranslateToAsync(-50, 0, half),
+            bucket.TranslateToAsync(-50, 0, half),
+            eye1.TranslateToAsync(-50, 0, half),
+            eye2.TranslateToAsync(-50, 0, half),
+            button1.TranslateToAsync(-50, 0, half),
+            button2.TranslateToAsync(-50, 0, half)
         );
 
         await Task.WhenAll(
-            body.TranslateTo(50, 0, half),
-            head.TranslateTo(50, 0, half),
-            bucket.TranslateTo(50, 0, half),
-            eye1.TranslateTo(50, 0, half),
-            eye2.TranslateTo(50, 0, half),
-            button1.TranslateTo(50, 0, half),
-            button2.TranslateTo(50, 0, half)
+            body.TranslateToAsync(50, 0, half),
+            head.TranslateToAsync(50, 0, half),
+            bucket.TranslateToAsync(50, 0, half),
+            eye1.TranslateToAsync(50, 0, half),
+            eye2.TranslateToAsync(50, 0, half),
+            button1.TranslateToAsync(50, 0, half),
+            button2.TranslateToAsync(50, 0, half)
         );
 
         await Task.WhenAll(
-            body.TranslateTo(0, 0, half),
-            head.TranslateTo(0, 0, half),
-            bucket.TranslateTo(0, 0, half),
-            eye1.TranslateTo(0, 0, half),
-            eye2.TranslateTo(0, 0, half),
-            button1.TranslateTo(0, 0, half),
-            button2.TranslateTo(0, 0, half)
+            body.TranslateToAsync(0, 0, half),
+            head.TranslateToAsync(0, 0, half),
+            bucket.TranslateToAsync(0, 0, half),
+            eye1.TranslateToAsync(0, 0, half),
+            eye2.TranslateToAsync(0, 0, half),
+            button1.TranslateToAsync(0, 0, half),
+            button2.TranslateToAsync(0, 0, half)
         );
     }
 

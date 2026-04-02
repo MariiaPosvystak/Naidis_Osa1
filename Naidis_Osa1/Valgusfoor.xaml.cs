@@ -177,6 +177,7 @@ public partial class Valgusfoor : ContentPage
     private void Btn_valja_Click(object? sender, EventArgs e)
     {
         BackgroundImageSource = "valgus_day.jpg";
+        lbl.Text = "Valgusfoor";
         red.Fill = Colors.Gray;
         yellow.Fill = Colors.Gray;
         green.Fill = Colors.Gray;
