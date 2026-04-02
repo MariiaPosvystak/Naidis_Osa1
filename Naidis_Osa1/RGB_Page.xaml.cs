@@ -85,7 +85,7 @@ public partial class RGB_Page : ContentPage
             Minimum = 0,
             Maximum = 360,
             Increment = 5,
-            Value = 50,
+            Value = 0,
             HorizontalOptions = LayoutOptions.Center
         };
         stepper.ValueChanged += Stepper_size;
@@ -175,6 +175,7 @@ public partial class RGB_Page : ContentPage
         bv.WidthRequest = 200 + e.NewValue / 4;
         bv.HeightRequest = 200 + e.NewValue / 4;
         bv.CornerRadius = 30 + e.NewValue / 4;
+        bv.TranslateToAsync(e.NewValue, 0);
     }
     private void OnSliderValueChanger(object sender, ValueChangedEventArgs args)
     {
