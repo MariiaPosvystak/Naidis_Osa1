@@ -356,6 +356,6 @@ public partial class Trips_Traps_Trull : ContentPage
         else if (b.ZIndex == 1)
             Navigation.PopToRootAsync();
         else if (b.ZIndex == 2)
-            Navigation.PushAsync(new Trips_Traps_Trull());
+            Navigation.PushAsync(new TableView_Page());
     }
 }
