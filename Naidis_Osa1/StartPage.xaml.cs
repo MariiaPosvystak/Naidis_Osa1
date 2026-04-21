@@ -9,7 +9,7 @@ public partial class StartPage : ContentPage
 	public List<ContentPage> Lehed = new List<ContentPage>() { new TextPage(), new FigurePage(), new TimerPage(), new Valgusfoor(), 
 		new DateTimePage(), new StepperSliderPage(), new RGB_Page(), new Lumememm(), new PopUp(), 
 		new PickerImagePage(), new Trips_Traps_Trull(), new TableView_Page(), new Sobrade_kont(), new List_Page(),
-		new Euroopa_riik(), new CarouselView() };
+		new Euroopa_riik(), new Karussel() };
 	public List<string> LeheNimed = new List<string>() { "Tekst", "Kujund", "Timer", "Valgusfoor", "DateTime", "StepperSlider", "RGB", "Lumememm", 
 		"PopUp", "Grid", "Trips Traps Trull", "TableView", 
 		"Kontaktandmed", "List", "Euroopa riikide", "Carousel" };

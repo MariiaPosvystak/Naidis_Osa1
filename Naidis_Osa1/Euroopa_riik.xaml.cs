@@ -50,6 +50,6 @@ public partial class Euroopa_riik : ContentPage
         else if (nupp.ZIndex == 1)
             Navigation.PopToRootAsync(); 
         else if (nupp.ZIndex == 2)
-            Navigation.PushAsync(new CarouselView());
+            Navigation.PushAsync(new Karussel());
     }
 }

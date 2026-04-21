@@ -50,6 +50,6 @@ public partial class Sobrade_kont : ContentPage
         else if (nupp.ZIndex == 1)
             Navigation.PopToRootAsync();
         else if (nupp.ZIndex == 2)
-            Navigation.PushAsync(new Sobrade_kont());
+            Navigation.PushAsync(new List_Page());
     }
 }
