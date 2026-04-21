@@ -94,8 +94,8 @@ public partial class Karussel : ContentPage
         {
             items.Add(new CarouselItem
             {
-                Title = "Rooma tänavad",
-                ImageUrl = "https://picsum.photos/id/1029/600/400"
+                Title = "Pildi",
+                ImageUrl = "https://upload.wikimedia.org/wikipedia/commons/5/53/Pilt_v6handu_1.jpg"
             });
             carouselView.Position = items.Count - 1;
         };
