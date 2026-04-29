@@ -2,6 +2,10 @@ namespace Naidis_Osa1;
 
 public partial class TableView_Page : ContentPage
 {
+    TableView tableView;
+    SwitchCell sc;
+    ImageCell ic;
+    TableSection fotosection;
     HorizontalStackLayout hsl;
     VerticalStackLayout vsl;
     List<string> nupud = new List<string>() { "Tagasi", "Avaleht", "Edasi" };
@@ -9,6 +13,33 @@ public partial class TableView_Page : ContentPage
     {
         BackgroundColor = Color.FromHex("#EDE0D4");
         Title = "TableView";
+        sc = new SwitchCell
+        {
+            Text = "Näita veel"
+        };
+        sc.OnChanged += Sc_OnChanged;
+        ic = new ImageCell
+        {
+            Text = "Pilt",
+            Detail = "See on pilt",
+            ImageSource = ImageSource.FromFile("pilt.jpg")
+        };
+        fotosection = new TableSection 
+        {
+            new EntryCell
+            {
+                Label = "Telefon",
+                Placeholder = "Sisesta tel. number",
+                Keyboard = Keyboard.Telephone
+            },
+            new EntryCell
+            {
+                Label = "Email",
+                Placeholder = "Sisesta email",
+                Keyboard = Keyboard.Email
+            },
+            sc
+        };
         hsl = new HorizontalStackLayout
         {
             Spacing = 20,
@@ -37,11 +68,25 @@ public partial class TableView_Page : ContentPage
             Padding = 20,
             Spacing = 15,
             HorizontalOptions = LayoutOptions.Center,
-            Children = { hsl }
+            Children = { tableView, hsl }
         };
         Content = vsl;
     }
-
+    private void Sc_OnChanged(object sender, ToggledEventArgs e)
+    {
+        if (e.Value)
+        {
+            fotosection.Title = "Foto: ";
+            fotosection.Add(ic);
+            sc.Text = "Peida";
+        }
+        else
+        {
+            fotosection.Title = "";
+            fotosection.Remove(ic);
+            sc.Text = "Näita veel";
+        }
+    }
     private void Liikumine(object? sender, EventArgs e)
     {
         Button nupp = sender as Button;
